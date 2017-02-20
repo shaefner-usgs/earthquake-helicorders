@@ -1,0 +1,34 @@
+/* styles for 'sub' navGroup */
+.site-sectionnav {
+  > section > section > a,
+  > section > section > header {
+    color: #333;
+    display: block;
+  }
+
+  > section > section > a {
+    font-size: .88em;
+    padding: .25em 1em .25em 1.5em;
+    transition: background .25s ease-out;
+
+    &:hover {
+      background-color: #f4f4f4;
+    }
+  }
+
+  > section > section > header {
+    font-size: .88em;
+    padding: .66667em 1.13636em;
+    position: relative;
+
+    &:before {
+      background-image: linear-gradient(90deg, transparent 0, rgba(0, 0, 0, .1) 2.5em, transparent);
+      content: '';
+      height: 1px;
+      left: 0;
+      position: absolute;
+      top: 0;
+      width: 100%;
+    }
+  }
+}

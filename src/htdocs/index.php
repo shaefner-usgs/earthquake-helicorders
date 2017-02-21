@@ -1,6 +1,7 @@
 <?php
 
 include_once '../conf/config.inc.php'; // app config
+include_once '../lib/_functions.inc.php'; // app functions
 
 if (!isset($TEMPLATE)) {
   $TITLE = 'Real-time Seismogram Displays';
@@ -18,9 +19,28 @@ if (!isset($TEMPLATE)) {
     <script src="helicorders/js/index.js"></script>
   ';
 
+  // importJsonToArray() sets headers -> needs to run before including template
+  $stations = importJsonToArray(__DIR__ . '/_getStations.json.php');
 
   include 'template.inc.php';
 }
+
+$stationsHtml = '<ul class="networks no-style" style="height: '. $height . 'px;">';
+
+foreach ($stations['features'] as $feature) {
+  $props = $feature['properties'];
+  $name = $props['site'] . ' ' . $props['type'] . ' ' . $props['network'] .
+    ' ' . $props['code'];
+
+  $stationsHtml .= sprintf('<li>
+      <a href="helicorders/%s/latest" title="View station">%s</a>
+    </li>',
+    $feature['id'],
+    $name
+  );
+}
+
+$stationsHtml .= '</ul>';
 
 ?>
 
@@ -31,4 +51,8 @@ if (!isset($TEMPLATE)) {
 
 <div class="map"></div>
 
-<h3 class="count"></h3>
+<h3 class="count">
+  <?php print $stations['count']; ?> stations on this map
+</h3>
+
+<?php print $stationsHtml; ?>

@@ -50,7 +50,7 @@ while ($row = $rsStations->fetch(PDO::FETCH_ASSOC)) {
       ],
       'type' => 'Point'
     ],
-    'id' => 'point' . intval($row['id']),
+    'id' => intval($row['id']),
     'properties' => [
       'code' => $row['code'],
       'img' => $img,

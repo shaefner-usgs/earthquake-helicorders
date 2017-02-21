@@ -11,8 +11,8 @@ if (preg_match("@^$section(/index.php)?$@", $url)) {
 $NAVIGATION =
   navGroup('Seismogram Displays',
     navItem("$section", 'Seismograms', $matches_index) .
-    navItem("$section/examples.php", 'Examples') .
     navItem("$section/about.php", 'About the Seismograms') .
+    navItem("$section/examples.php", 'Examples') .
     navItem("/monitoring/spectrograms/", 'Spectrogram Displays')
   );
 

@@ -99,9 +99,11 @@ class Db {
     if (!$filter) {
       $filter = 'nca'; // default value
     }
-    $params['filter'] = $filter;
+    // Can't get this to work as a PDO param, so strip non-word chars for security
+    $filter = preg_replace('/[^\w]/', '', $filter);
+    $column = "heli-$filter";
 
-    $sql = 'SELECT * FROM seismic_stations WHERE `heli-:filter` = "TRUE"';
+    $sql = "SELECT * FROM seismic_stations WHERE `$column` = 'TRUE'";
 
     return $this->_execQuery($sql, $params);
   }

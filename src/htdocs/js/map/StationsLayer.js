@@ -40,8 +40,7 @@ var StationsLayer = function (options) {
       _overlayOptions,
 
       _onEachFeature,
-      _pointToLayer,
-      _showCount;
+      _pointToLayer;
 
 
   _this = {};
@@ -50,8 +49,6 @@ var StationsLayer = function (options) {
     options = Util.extend({}, _DEFAULTS, options);
 
     _overlayOptions = Util.extend({}, _OVERLAY_DEFAULTS, options.overlayOptions);
-
-    _showCount(options.data.count);
 
     _this = L.geoJson(options.data, {
       onEachFeature: _onEachFeature,
@@ -119,18 +116,6 @@ var StationsLayer = function (options) {
    */
   _pointToLayer = function (feature, latlng) {
     return L.circleMarker(latlng, _overlayOptions);
-  };
-
-  /**
-   * Show station count on web page
-   *
-   * @param count {Integer}
-   */
-  _showCount = function (count) {
-    var el;
-
-    el = document.querySelector('.count');
-    el.innerHTML = count + ' stations on this map';
   };
 
   _initialize(options);

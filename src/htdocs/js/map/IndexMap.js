@@ -1,6 +1,8 @@
-/* global L */
+/* global L, MOUNT_PATH */
 'use strict';
 
+
+var Xhr = require('util/Xhr');
 
 // Leaflet plugins
 require('leaflet-fullscreen');
@@ -12,6 +14,7 @@ require('map/RestoreMap');
 require('map/DarkLayer');
 require('map/GreyscaleLayer');
 require('map/SatelliteLayer');
+require('map/StationsLayer');
 require('map/TerrainLayer');
 
 
@@ -23,10 +26,11 @@ var IndexMap = function (options) {
       _this,
 
       _el,
+      _stations,
 
-      _addMarker,
       _getMapLayers,
-      _initMap;
+      _initMap,
+      _loadStationsLayer;
 
   _this = {};
 
@@ -35,15 +39,10 @@ var IndexMap = function (options) {
     options = options || {};
     _el = options.el || document.createElement('div');
 
-    _initMap();
+    // Load stations layer which calls initMap() when finished
+    _loadStationsLayer();
   };
 
-  _addMarker = function (map) {
-    var marker;
-
-    marker = L.marker([37.78, -122.45]).bindLabel('label');
-    marker.addTo(map);
-  };
 
   /**
    * Get all map layers that will be displayed on map
@@ -75,9 +74,9 @@ var IndexMap = function (options) {
       'Dark': dark
     };
     layers.overlays = {
-
+      'Stations': _stations
     };
-    layers.defaults = [terrain];
+    layers.defaults = [terrain, _stations];
 
     return layers;
   };
@@ -86,20 +85,21 @@ var IndexMap = function (options) {
    * Create Leaflet map instance
    */
   _initMap = function () {
-    var layers,
+    var bounds,
+        layers,
         map;
 
     layers = _getMapLayers();
 
     // Create map
     map = L.map(_el, {
-      center: [38, -123],
-      zoom: 7,
       layers: layers.defaults,
       scrollWheelZoom: false
     });
 
-    _addMarker(map);
+    // Set intial map extent to contain requested sites overlay
+    bounds = _stations.getBounds();
+    map.fitBounds(bounds);
 
     // Add controllers
     L.control.fullscreen({ pseudoFullscreen: true }).addTo(map);
@@ -112,8 +112,26 @@ var IndexMap = function (options) {
       baseLayers: layers.baseLayers,
       id: 'id',
       overlays: layers.overlays,
-      scope: 'appName',
+      scope: 'Helicorders',
       shareLayers: true
+    });
+  };
+
+  /**
+   * Load stations layer from geojson data via ajax
+   */
+  _loadStationsLayer = function () {
+    Xhr.ajax({
+      url: MOUNT_PATH + '/_getStations.json.php',
+      success: function (data) {
+        _stations = L.stationsLayer({
+          data: data
+        });
+        _initMap();
+      },
+      error: function (status) {
+        console.log(status);
+      }
     });
   };
 

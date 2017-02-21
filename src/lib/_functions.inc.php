@@ -1,6 +1,34 @@
 <?php
 
 /**
+ * Import dynamically generated json file and store it in an array
+ *
+ * @param $file {String}
+ *     full path to json file to import (__DIR__ magic constant is useful)
+ * @param $network {String} default is NULL
+ *     GPS Network for php script that creates json file
+ *
+ * @return {Array} json file contents
+ */
+function importJsonToArray ($file, $network=NULL) {
+  if (is_file($file)) {
+    // Read file contents into output buffer
+    ob_start();
+    include $file;
+    $contents = ob_get_contents();
+    ob_end_clean();
+
+    // Reset to html (gets set to JSON by included $file)
+    header('Content-Type: text/html');
+
+    return json_decode($contents, true);
+  } else {
+    trigger_error("importJsonToArray(): Failed opening $file for import",
+      E_USER_WARNING);
+  }
+}
+
+/**
  * Get a request parameter from $_GET or $_POST
  *
  * @param $name {String}

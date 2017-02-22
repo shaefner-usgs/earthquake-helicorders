@@ -25,7 +25,7 @@ if (!isset($TEMPLATE)) {
   include 'template.inc.php';
 }
 
-$stationsHtml = '<ul class="networks no-style" style="height: '. $height . 'px;">';
+$stationsHtml = '<ul class="stations no-style" style="height:576px;">';
 
 foreach ($stations['features'] as $feature) {
   $props = $feature['properties'];

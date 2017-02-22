@@ -89,6 +89,22 @@ class Db {
   }
 
   /**
+   * Query db to get details for a given seismic station
+   *
+   * @param $id {Integer}
+   *
+   * @return {Function}
+   */
+  public function queryStation ($id) {
+    $params = [
+      'id' => $id
+    ];
+    $sql = 'SELECT * FROM seismic_stations WHERE `id`=:id';
+
+    return $this->_execQuery($sql, $params);
+  }
+
+  /**
    * Query db to get a list of seismic stations
    *
    * @param $filter {String} default is NULL

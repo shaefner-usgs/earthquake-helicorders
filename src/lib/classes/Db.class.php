@@ -103,7 +103,9 @@ class Db {
     $filter = preg_replace('/[^\w]/', '', $filter);
     $column = "heli-$filter";
 
-    $sql = "SELECT * FROM seismic_stations WHERE `$column` = 'TRUE'";
+    $sql = "SELECT * FROM seismic_stations
+      WHERE `$column` = 'TRUE'
+      ORDER BY `site`, `type`, `network` ASC";
 
     return $this->_execQuery($sql, $params);
   }

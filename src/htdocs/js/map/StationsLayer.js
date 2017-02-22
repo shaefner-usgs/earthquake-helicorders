@@ -38,19 +38,21 @@ var StationsLayer = function (options) {
       _this,
 
       _overlayOptions,
+      _points,
 
       _onEachFeature,
       _pointToLayer;
 
 
-  _this = {};
+  _this = L.featureGroup();
 
   _initialize = function (options) {
     options = Util.extend({}, _DEFAULTS, options);
 
     _overlayOptions = Util.extend({}, _OVERLAY_DEFAULTS, options.overlayOptions);
+    _points = {};
 
-    _this = L.geoJson(options.data, {
+    L.geoJson(options.data, {
       onEachFeature: _onEachFeature,
       pointToLayer: _pointToLayer
     });
@@ -104,6 +106,9 @@ var StationsLayer = function (options) {
     layer.bindPopup(popup, {
       autoPanPadding: L.point(50, 10)
     }).bindLabel(name);
+
+    // Store point so its popup can be accessed by openPopup()
+    _points[name] = layer;
   };
 
   /**
@@ -115,8 +120,43 @@ var StationsLayer = function (options) {
    * @return marker {L.CircleMarker}
    */
   _pointToLayer = function (feature, latlng) {
-    return L.circleMarker(latlng, _overlayOptions);
+    var marker;
+
+    marker = L.circleMarker(latlng, _overlayOptions);
+
+    // Add marker to layer
+    _this.addLayer(marker);
+
+    return marker;
   };
+
+  /**
+   * Hide label for a given station
+   *
+   * @param station {String}
+   */
+  _this.hideLabel = function (station) {
+    _points[station].hideLabel();
+  };
+
+  /**
+   * Open popup for a given station
+   *
+   * @param station {String}
+   */
+  _this.openPopup = function (station) {
+    _points[station].openPopup();
+  };
+
+  /**
+   * Show label for a given station
+   *
+   * @param station {String}
+   */
+  _this.showLabel = function (station) {
+    _points[station].showLabel();
+  };
+
 
   _initialize(options);
   options = null;

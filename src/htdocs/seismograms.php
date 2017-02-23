@@ -8,7 +8,6 @@ include_once '../lib/classes/Db.class.php'; // db connector, queries
 
 $db = new Db;
 
-$date = safeParam('date');
 $id = safeParam('id');
 
 // 'hardwire' for now
@@ -51,7 +50,7 @@ for ($i = -1; $i < 15; $i ++) {
     $path = $date;
   }
 
-  $file = sprintf('%s/tn-nc.%s_00.%d00.gif',
+  $file = sprintf('%s/tn-nc.%s_00.%s00.gif',
     $set,
     str_replace(' ', '_', $instrument),
     $date
@@ -80,3 +79,5 @@ $listHtml .= '</ul>';
 <h2><?php print $subtitle; ?></h2>
 
 <?php print $listHtml; ?>
+
+<p class="back">&laquo; <a href="../helicorders">Back to all stations</a></p>

@@ -60,6 +60,10 @@ var connect = {
       to: '/seismogram.php?id=$1&date=$2'
     },
     {
+      from: '^' + MOUNT_PATH + '/([0-9]{8})$',
+      to: '/seismograms.php?date=$1'
+    },
+    {
       from: '^' + MOUNT_PATH + '/([0-9]+)$',
       to: '/seismograms.php?id=$1'
     },

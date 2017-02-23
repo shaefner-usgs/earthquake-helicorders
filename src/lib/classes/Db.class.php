@@ -99,7 +99,9 @@ class Db {
     $params = [
       'id' => $id
     ];
-    $sql = 'SELECT * FROM seismic_stations WHERE `id`=:id';
+    $sql = 'SELECT * FROM seismic_stations
+      WHERE `id`=:id
+      ORDER BY `site`, `type`, `network` ASC';
 
     return $this->_execQuery($sql, $params);
   }

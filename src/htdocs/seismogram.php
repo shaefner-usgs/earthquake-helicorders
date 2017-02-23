@@ -26,7 +26,7 @@ if (!isset($TEMPLATE)) {
 // Query db to get station details
 $rsStation = $db->queryStation($id);
 
-// If station found, create station name; otherwise, show error
+// If station found, create instrument name; otherwise, show error
 $row = $rsStation->fetch(PDO::FETCH_ASSOC);
 if ($row) {
   $instrument = $row['site'] . ' ' . $row['type'] . ' ' . $row['network'] .
@@ -37,36 +37,12 @@ if ($row) {
   return;
 }
 
-// Create components for header (date, navigation)
-$imgHeader = date('D M j, Y', strtotime($date));
-$nextHref = date('Ymd', strtotime('+1 day', strtotime($date)));
-$nextLink = '';
-$prevHref = date('Ymd', strtotime('-1 day', strtotime($date)));
-$prevLink = '';
-
-$cutoffDate = date('Ymd', strtotime('-14 days'));
-$today = date('Ymd');
-
-if ($date === 'latest') {
-  $date = '22221212'; // 'latest' plots use this date string
-  $imgHeader = 'Past 24 hours';
-  $nextHref = '';
-  $prevHref = date('Ymd', strtotime($today));
-} else if ($date === $cutoffDate) {
-  $prevHref = '';
-} else if ($date === $today) {
-  $nextHref = 'latest';
-}
-if ($nextHref) {
-  $nextLink = '<a href="' . $nextHref . '" class="next">Next<i
-    class="material-icons">&#xE5CC;</i></a>';
-}
-if ($prevHref) {
-  $prevLink = '<a href="' . $prevHref . '" class="prev"><i
-    class="material-icons">&#xE5CB;</i> Prev</a>';
-}
+$header = getHeaderComponents($date);
 
 // Seismogram plot
+if ($date === 'latest') {
+  $date = '22221212'; // 'latest' plots use this date string
+}
 $file = sprintf('%s/nc.%s_00.%s00.gif',
   $set,
   str_replace(' ', '_', $instrument),
@@ -87,10 +63,10 @@ $backLink = '<a href="../' . $id . '">Back to station ' . $instrument . '</a>';
 <h2><?php print $subtitle; ?></h2>
 
 <header>
-  <h3><?php print $imgHeader; ?></h3>
+  <h3><?php print $header['title']; ?></h3>
   <ul class="no-style">
-    <li><?php print $prevLink; ?></li>
-    <li><?php print $nextLink; ?></li>
+    <li><?php print $header['prevLink']; ?></li>
+    <li><?php print $header['nextLink']; ?></li>
   </ul>
 </header>
 

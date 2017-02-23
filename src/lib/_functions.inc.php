@@ -1,6 +1,50 @@
 <?php
 
 /**
+ * Get components for header (title, navigation links)
+ *
+ * @param $date {Integer}
+ *     Ymd date, e.g. 20170223
+ *
+ * @return {Array}
+ */
+function getHeaderComponents ($date) {
+  // set defaults
+  $nextHref = date('Ymd', strtotime('+1 day', strtotime($date)));
+  $nextLink = '';
+  $prevHref = date('Ymd', strtotime('-1 day', strtotime($date)));
+  $prevLink = '';
+  $title = date('D M j, Y', strtotime($date));
+
+  $cutoffDate = date('Ymd', strtotime('-14 days'));
+  $today = date('Ymd');
+
+  if ($date === 'latest') {
+    $title = 'Past 24 hours';
+    $nextHref = '';
+    $prevHref = date('Ymd', strtotime($today));
+  } else if ($date === $cutoffDate) {
+    $prevHref = '';
+  } else if ($date === $today) {
+    $nextHref = 'latest';
+  }
+  if ($nextHref) {
+    $nextLink = '<a href="' . $nextHref . '" class="next">Next<i
+      class="material-icons">&#xE5CC;</i></a>';
+  }
+  if ($prevHref) {
+    $prevLink = '<a href="' . $prevHref . '" class="prev"><i
+      class="material-icons">&#xE5CB;</i> Prev</a>';
+  }
+
+  return [
+    'title' => $title,
+    'prevLink' => $prevLink,
+    'nextLink' => $nextLink
+  ];
+}
+
+/**
  * Import dynamically generated json file and store it in an array
  *
  * @param $file {String}

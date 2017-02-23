@@ -56,11 +56,11 @@ var connect = {
       redirect: 'permanent'
     },
     {
-      from: '^' + MOUNT_PATH + '/([0-9]+)/([a-zA-Z0-9]+)$',
+      from: '^' + MOUNT_PATH + '/([0-9]+)/([0-9]{8}|latest)$',
       to: '/seismogram.php?id=$1&date=$2'
     },
     {
-      from: '^' + MOUNT_PATH + '/([0-9]{8})$',
+      from: '^' + MOUNT_PATH + '/([0-9]{8}|latest)$',
       to: '/seismograms.php?date=$1'
     },
     {

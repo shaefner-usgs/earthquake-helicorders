@@ -4,7 +4,7 @@ $section = $CONFIG['MOUNT_PATH'];
 $url = $_SERVER['REQUEST_URI'];
 
 $matches_index = false;
-if (preg_match("@^$section(/index.php)?$@", $url)) {
+if (preg_match("@^$section(/index.php)?/?(\d+)?/?(latest|\d+)?$@", $url)) {
   $matches_index = true;
 }
 

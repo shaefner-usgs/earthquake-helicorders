@@ -1,5 +1,53 @@
+@import '_variables.scss';
+
 .back {
   border-top: 1px solid #eee;
   margin-top: 2em;
   padding-top: 5px;
+}
+
+.next i {
+  right: 0;
+}
+
+.prev i {
+  left: 0;
+}
+
+.page-content header {
+  margin: 1.5em 0 1em;
+  position: relative;
+
+  a {
+    position: relative;
+    padding: 0 1.25em;
+  }
+
+  i {
+    position: absolute;
+    top: 0;
+  }
+
+  h3 {
+    background: #e2ede7;
+    color: #5d615f;
+    font: normal 1.2em $font-sans;
+    line-height: 1;
+    margin: 0;
+    padding: 4px 0;
+    text-align: center;
+  }
+
+  li {
+    padding: 0 5px;
+  }
+
+  ul {
+    display: flex;
+    justify-content: space-between;
+    margin: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+  }
 }

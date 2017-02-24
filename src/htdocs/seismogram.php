@@ -40,13 +40,14 @@ if ($row) {
 $header = getHeaderComponents($date);
 
 // Seismogram plot
+$imgDateStr = $date;
 if ($date === 'latest') {
-  $date = '22221212'; // 'latest' plots use this date string
+  $imgDateStr = '22221212'; // 'latest' plots use this date string
 }
 $file = sprintf('%s/nc.%s_00.%s00.gif',
   $set,
   str_replace(' ', '_', $instrument),
-  $date
+  $imgDateStr
 );
 
 // if no image, display 'no data' msg
@@ -71,5 +72,7 @@ $backLink = '<a href="../' . $id . '">Back to station ' . $instrument . '</a>';
 </header>
 
 <?php print $img; ?>
+
+<p>View seismograms for <a href="../<?php print $date; ?>">all stations</a></p>
 
 <p class="back">&laquo; <?php print $backLink;?></p>

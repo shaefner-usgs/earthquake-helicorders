@@ -56,3 +56,5 @@ $stationsHtml .= '</ul>';
 </h3>
 
 <?php print $stationsHtml; ?>
+
+<p>View seismograms for <a href="helicorders/latest">all stations</a></p>

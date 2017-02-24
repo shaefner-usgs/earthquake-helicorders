@@ -31,7 +31,7 @@ $PROMPTS = array(
   ),
   'DB_DSN' => array(
     'prompt' => 'Read-only database connection DSN string',
-    'default' => 'mysql:host=localhost;port=3306;dbname=dbname',
+    'default' => 'mysql:host=127.0.0.1;port=3306;dbname=web',
     'secure' => false
   ),
   'DB_USER' => array(
@@ -43,23 +43,7 @@ $PROMPTS = array(
     'prompt' => 'Read-only password for database user',
     'default' => '',
     'secure' => true
-  )/*,
-  'DB_WRITE_DSN' => array(
-    'prompt' => 'Write Database connection DSN string',
-    'default' => 'mysql:host=localhost;port=3306;dbname=dbname',
-    'secure' => false
-  ),
-  'DB_WRITE_USER' => array(
-    'prompt' => 'Write username for database connections',
-    'default' => 'webwrite',
-    'secure' => false
-  ),
-  'DB_WRITE_PASS' => array(
-    'prompt' => 'Write Password for database user',
-    'default' => '',
-    'secure' => true
-  )*/
-
+  )
 );
 
 

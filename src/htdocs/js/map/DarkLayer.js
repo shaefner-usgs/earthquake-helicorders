@@ -15,15 +15,15 @@ var Util = require('util/Util');
  */
 var DarkLayer = function (options) {
   options = Util.extend({
-    attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">' +
-      'OpenStreetMap</a> &copy; <a href="http://cartodb.com/attributions">' +
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">' +
+      'OpenStreetMap</a> &copy; <a href="https://cartodb.com/attributions">' +
       'CartoDB</a>',
     maxZoom: 19,
     subdomains: 'abcd'
   }, options);
 
   return L.tileLayer(
-    'http://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png',
+    'https://cartodb-basemaps-{s}.global.ssl.fastly.net/dark_all/{z}/{x}/{y}@2x.png',
     options
   );
 };

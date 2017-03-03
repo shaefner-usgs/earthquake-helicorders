@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Get components for header (title, navigation links)
+ * Get components (title, navigation links) for header on full-size plots
  *
  * @param $date {Integer}
  *     Ymd date, e.g. 20170223
@@ -9,15 +9,16 @@
  * @return {Array}
  */
 function getHeaderComponents ($date) {
-  // set defaults
-  $nextHref = date('Ymd', strtotime('+1 day', strtotime($date)));
-  $nextLink = '';
-  $prevHref = date('Ymd', strtotime('-1 day', strtotime($date)));
-  $prevLink = '';
-  $title = date('D M j, Y', strtotime($date));
-
   $cutoffDate = date('Ymd', strtotime('-14 days'));
+  $time = strtotime($date);
   $today = date('Ymd');
+
+  // Set header defaults first
+  $nextHref = date('Ymd', strtotime('+1 day', $time));
+  $nextLink = '';
+  $prevHref = date('Ymd', strtotime('-1 day', $time));
+  $prevLink = '';
+  $title = date('D M j, Y', $time);
 
   if ($date === 'latest') {
     $title = 'Past 24 hours';

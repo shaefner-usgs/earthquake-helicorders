@@ -11,7 +11,7 @@ $PROMPTS = array(
 
   'MOUNT_PATH' => array(
     'prompt' => 'URL Path for application',
-    'default' => '',
+    'default' => '/monitoring/helicorders',
     'secure' => false
   ),
   'APP_DIR' => array(

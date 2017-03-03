@@ -73,6 +73,6 @@ $backLink = '<a href="../' . $id . '">Back to station ' . $instrument . '</a>';
 
 <?php print $img; ?>
 
-<p>View seismograms for <a href="../<?php print $date; ?>">all stations</a></p>
+<p>View <a href="../<?php print $date; ?>">seismograms for all stations</a> &raquo;</p>
 
 <p class="back">&laquo; <?php print $backLink;?></p>

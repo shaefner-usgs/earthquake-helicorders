@@ -25,7 +25,8 @@ if (!isset($TEMPLATE)) {
   include 'template.inc.php';
 }
 
-$stationsHtml = '<ul class="stations no-style" style="height:576px;">';
+$height = ceil($stations['count'] / 4) * 32;
+$stationsHtml = '<ul class="stations no-style" style="height: '. $height . 'px;">';
 
 foreach ($stations['features'] as $feature) {
   $props = $feature['properties'];
@@ -57,4 +58,4 @@ $stationsHtml .= '</ul>';
 
 <?php print $stationsHtml; ?>
 
-<p>View seismograms for <a href="helicorders/latest">all stations</a></p>
+<p>View <a href="helicorders/latest">seismograms for all stations</a> &raquo;</p>

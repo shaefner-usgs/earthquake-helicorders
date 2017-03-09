@@ -8,7 +8,7 @@ if (!isset($TEMPLATE)) {
   $NAVIGATION = true;
   $HEAD = '
     <link rel="stylesheet" href="/lib/leaflet-0.7.7/leaflet.css" />
-    <link rel="stylesheet" href="helicorders/css/index.css" />
+    <link rel="stylesheet" href="seismograms/css/index.css" />
   ';
   $FOOT = '
     <script>
@@ -16,7 +16,7 @@ if (!isset($TEMPLATE)) {
           SET = "nca";
     </script>
     <script src="/lib/leaflet-0.7.7/leaflet.js"></script>
-    <script src="helicorders/js/index.js"></script>
+    <script src="seismograms/js/index.js"></script>
   ';
 
   // importJsonToArray() sets headers -> needs to run before including template
@@ -34,7 +34,7 @@ foreach ($stations['features'] as $feature) {
     ' ' . $props['code'];
 
   $stationsHtml .= sprintf('<li>
-      <a href="helicorders/%s/latest" title="View station">%s</a>
+      <a href="seismograms/%s/latest" title="View station">%s</a>
     </li>',
     $feature['id'],
     $name
@@ -47,7 +47,7 @@ $stationsHtml .= '</ul>';
 
 <p>These seismogram displays depict ground motion recorded by seismograph
   stations in real-time, updated every few minutes. Each plot represents 24
-  hours of data from one station. <a href="/monitoring/helicorders/about.php">Read
+  hours of data from one station. <a href="seismograms/about.php">Read
   more</a> &raquo;</p>
 
 <div class="map"></div>
@@ -58,4 +58,4 @@ $stationsHtml .= '</ul>';
 
 <?php print $stationsHtml; ?>
 
-<p>View <a href="helicorders/latest">seismograms for all stations</a> &raquo;</p>
+<p>View <a href="seismograms/latest">seismograms for all stations</a> &raquo;</p>

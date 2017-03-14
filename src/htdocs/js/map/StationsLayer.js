@@ -67,7 +67,6 @@ var StationsLayer = function (options) {
    */
   _onEachFeature = function (feature, layer) {
     var data,
-        file,
         img,
         imgLink,
         imgSrc,
@@ -80,11 +79,12 @@ var StationsLayer = function (options) {
     name = props.site + ' ' + props.type + ' ' + props.network + ' ' +
       props.code;
 
-    //img = '<p class="nodata">No data available</p>'; // default
-    file = 'tn-nc.' + name.replace(/ /g, '_') + '_00.2222121200.gif'; // latest
-    imgLink = MOUNT_PATH + '/' + feature.id + '/latest';
-    imgSrc = MOUNT_PATH + '/data/' + SET + '/' + file;
-    img = '<a href="' + imgLink + '"><img src="' + imgSrc + '" /></a>';
+    img = '<p class="nodata">No data available</p>'; // default
+    if (props.img) {
+      imgLink = MOUNT_PATH + '/' + feature.id + '/' + props.link;
+      imgSrc = MOUNT_PATH + '/data/' + SET + '/' + props.img;
+      img = '<a href="' + imgLink + '"><img src="' + imgSrc + '" /></a>';
+    }
 
     data = {
       description: props.name,

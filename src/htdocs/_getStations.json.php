@@ -7,6 +7,7 @@ include_once '../lib/classes/Db.class.php'; // db connector, queries
 $db = new Db;
 
 $now = date(DATE_RFC2822);
+$set_dir = 'nca';
 $today = date('Ymd');
 
 $rsStations = $db->queryStations();
@@ -27,8 +28,10 @@ while ($row = $rsStations->fetch(PDO::FETCH_ASSOC)) {
     $row['code']
   );
   $link = 'latest';
+  $path = "{$CONFIG['DATA_DIR']}/$set_dir";
 
-  if (!file_exists("$DATA_DIR/$set_dir/$img")) { // Look for today's plot if 'latest' not available
+  // Look for today's plot if 'latest' not available
+  if (!file_exists("$path/$img")) {
     $img = sprintf('tn-nc.%s_%s_%s_%s_00.%s00.gif',
       $row['site'],
       $row['type'],
@@ -37,9 +40,11 @@ while ($row = $rsStations->fetch(PDO::FETCH_ASSOC)) {
       $today
     );
     $link = $today;
-  }
-  if (!file_exists("$DATA_DIR/$set_dir/$img")) { // Neither latest / today's plot available
-    $img = 'No data available';
+
+    if (!file_exists("$path/$img")) { // neither plot available
+      $img = '';
+      $link = '';
+    }
   }
 
   $feature = [

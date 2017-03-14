@@ -20,44 +20,46 @@ if (!isset($TEMPLATE)) {
   $HEAD = '<link rel="stylesheet" href="../css/seismogram.css" />';
   $FOOT = '';
 
+  // Query db to get station details
+  $rsStation = $db->queryStation($id);
+
+  // If station found, create instrument name; otherwise, show error
+  $row = $rsStation->fetch(PDO::FETCH_ASSOC);
+  if ($row) {
+    $instrument = $row['site'] . ' ' . $row['type'] . ' ' . $row['network'] .
+      ' ' . $row['code'];
+    $subtitle = $instrument . ' (' . trim($row['name']) . ')';
+  } else {
+    print '<p class="alert info">Station not found</p>';
+    return;
+  }
+
+  $header = getHeaderComponents($date);
+
+  // Seismogram plot
+  $imgDateStr = $date;
+  if ($date === 'latest') {
+    $imgDateStr = '22221212'; // 'latest' plots use this date string
+  }
+  $file = sprintf('%s/nc.%s_00.%s00.gif',
+    $set,
+    str_replace(' ', '_', $instrument),
+    $imgDateStr
+  );
+
+  // if no image, display 'no data' msg
+  if (file_exists($CONFIG['DATA_DIR'] . '/' . $file)) {
+    $img = '<img src="../data/' . $file . '" alt="seismogram thumbnail" />';
+  } else {
+    $img = '<p class="alert info">No data available</p>';
+  }
+
+  $backLink = '<a href="../' . $id . '">Back to station ' . $instrument . '</a>';
+
+  $TITLETAG .= "Seismograms | $subtitle - " . $header['title'];
+
   include 'template.inc.php';
 }
-
-// Query db to get station details
-$rsStation = $db->queryStation($id);
-
-// If station found, create instrument name; otherwise, show error
-$row = $rsStation->fetch(PDO::FETCH_ASSOC);
-if ($row) {
-  $instrument = $row['site'] . ' ' . $row['type'] . ' ' . $row['network'] .
-    ' ' . $row['code'];
-  $subtitle = $instrument . ' (' . trim($row['name']) . ')';
-} else {
-  print '<p class="alert info">Station not found</p>';
-  return;
-}
-
-$header = getHeaderComponents($date);
-
-// Seismogram plot
-$imgDateStr = $date;
-if ($date === 'latest') {
-  $imgDateStr = '22221212'; // 'latest' plots use this date string
-}
-$file = sprintf('%s/nc.%s_00.%s00.gif',
-  $set,
-  str_replace(' ', '_', $instrument),
-  $imgDateStr
-);
-
-// if no image, display 'no data' msg
-if (file_exists($CONFIG['DATA_DIR'] . '/' . $file)) {
-  $img = '<img src="../data/' . $file . '" alt="seismogram thumbnail" />';
-} else {
-  $img = '<p class="alert info">No data available</p>';
-}
-
-$backLink = '<a href="../' . $id . '">Back to station ' . $instrument . '</a>';
 
 ?>
 

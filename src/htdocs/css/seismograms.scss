@@ -5,6 +5,10 @@
   flex-flow: row wrap;
 
   li {
+    h3 {
+      white-space: nowrap;
+    }
+
     margin-right: 1em;
     text-align: center;
     width: 144px;

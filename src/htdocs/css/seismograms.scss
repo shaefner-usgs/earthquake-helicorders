@@ -1,5 +1,9 @@
 @import '_common.scss';
 
+h2 {
+  margin-top: 0;
+}
+
 .stations {
   display: flex;
   flex-flow: row wrap;

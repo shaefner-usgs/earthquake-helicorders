@@ -50,12 +50,10 @@ function getHeaderComponents ($date) {
  *
  * @param $file {String}
  *     full path to json file to import (__DIR__ magic constant is useful)
- * @param $network {String} default is NULL
- *     GPS Network for php script that creates json file
  *
  * @return {Array} json file contents
  */
-function importJsonToArray ($file, $network=NULL) {
+function importJsonToArray ($file) {
   if (is_file($file)) {
     // Read file contents into output buffer
     ob_start();

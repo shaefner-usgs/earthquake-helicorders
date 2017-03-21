@@ -39,15 +39,14 @@ if (!isset($TEMPLATE)) {
   if ($date === 'latest') {
     $imgDateStr = '22221212'; // 'latest' plots use this date string
   }
-  $file = sprintf('%s/nc.%s_00.%s00.gif',
-    $set,
+  $file = sprintf('nc.%s_00.%s00.gif',
     str_replace(' ', '_', $instrument),
     $imgDateStr
   );
 
   // if no image, display 'no data' msg
-  if (file_exists($CONFIG['DATA_DIR'] . '/' . $file)) {
-    $img = '<img src="../data/' . $file . '" alt="seismogram thumbnail"
+  if (file_exists($CONFIG['DATA_DIR'] . '/' . $set . '/' . $file)) {
+    $img = '<img src="../data/' . "$set/$file" . '" alt="seismogram plot"
       class="seismogram" />';
   } else {
     $img = '<p class="alert info">No data available</p>';

@@ -49,7 +49,8 @@ if (!isset($TEMPLATE)) {
 
   // if no image, display 'no data' msg
   if (file_exists($CONFIG['DATA_DIR'] . '/' . $file)) {
-    $img = '<img src="../data/' . $file . '" alt="seismogram thumbnail" />';
+    $img = '<img src="../data/' . $file . '" alt="seismogram thumbnail"
+      class="seismogram" />';
   } else {
     $img = '<p class="alert info">No data available</p>';
   }
@@ -75,6 +76,7 @@ if (!isset($TEMPLATE)) {
 
 <?php print $img; ?>
 
-<p>View <a href="../<?php print $date; ?>">seismograms for all stations</a> &raquo;</p>
+<p class="allstations"><a href="../<?php print $date; ?>">View seismograms for
+  all stations</a> &raquo;</p>
 
 <p class="back">&laquo; <?php print $backLink;?></p>

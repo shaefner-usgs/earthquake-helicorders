@@ -4,19 +4,26 @@ include_once '../conf/config.inc.php'; // app config
 include_once '../lib/_functions.inc.php'; // app functions
 include_once '../lib/classes/Db.class.php'; // db connector, queries
 
+// Don't cache
+$now = date(DATE_RFC2822);
+header('Cache-control: no-cache, must-revalidate');
+header("Expires: $now");
+
 $db = new Db;
 
-$now = date(DATE_RFC2822);
+$rsStations = $db->queryStations();
 $set_dir = 'nca';
 $today = date('Ymd');
 
-$rsStations = $db->queryStations();
-
 // Initialize array template for json feed
 $output = [
-  'generated' => $now,
-  'count' => $rsStations->rowCount(),
   'type' => 'FeatureCollection',
+  'metadata' => [
+    'generated' => $now,
+    'count' => $rsStations->rowCount(),
+    'title' => 'Earthquake Science Center Helicorders',
+    'url' => 'https://earthquake.usgs.gov' . $_SERVER['PHP_SELF']
+  ],
   'features' => []
 ];
 
@@ -41,13 +48,16 @@ while ($row = $rsStations->fetch(PDO::FETCH_ASSOC)) {
     );
     $link = $today;
 
-    if (!file_exists("$path/$img")) { // neither plot available
+    // Set img / link to empty strings if neither plot is available
+    if (!file_exists("$path/$img")) {
       $img = '';
       $link = '';
     }
   }
 
   $feature = [
+    'type' => 'Feature',
+    'id' => intval($row['id']),
     'geometry' => [
       'coordinates' => [
         floatval($row['lon']),
@@ -55,19 +65,16 @@ while ($row = $rsStations->fetch(PDO::FETCH_ASSOC)) {
       ],
       'type' => 'Point'
     ],
-    'id' => intval($row['id']),
     'properties' => [
-      'code' => $row['code'],
+      'code' => trim($row['code']),
       'img' => $img,
       'link' => $link,
-      'name' => $row['name'],
-      'network' => $row['network'],
-      'site' => $row['site'],
-      'type' => $row['type']
-    ],
-    'type' => 'Feature'
+      'name' => trim($row['name']),
+      'network' => trim($row['network']),
+      'site' => trim($row['site']),
+      'type' => trim($row['type'])
+    ]
   ];
-
 
   array_push ($output['features'], $feature);
 }

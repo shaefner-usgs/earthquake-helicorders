@@ -1,6 +1,6 @@
 <?php
 
-date_default_timezone_set('UTC');
+date_default_timezone_set('America/Los_Angeles');
 
 $CONFIG_INI_FILE = dirname(__FILE__) . '/config.ini';
 if (!file_exists($CONFIG_INI_FILE)) {

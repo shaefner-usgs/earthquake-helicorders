@@ -12,7 +12,7 @@ header("Expires: $now");
 $db = new Db;
 
 $rsStations = $db->queryStations();
-$set_dir = 'nca';
+$set = 'nca';
 $today = date('Ymd');
 
 // Initialize array template for json feed
@@ -35,7 +35,7 @@ while ($row = $rsStations->fetch(PDO::FETCH_ASSOC)) {
     $row['code']
   );
   $link = 'latest';
-  $path = "{$CONFIG['DATA_DIR']}/$set_dir";
+  $path = "{$CONFIG['DATA_DIR']}/$set";
 
   // Look for today's plot if 'latest' not available
   if (!file_exists("$path/$img")) {

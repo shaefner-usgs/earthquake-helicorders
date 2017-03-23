@@ -58,4 +58,5 @@ $stationsHtml .= '</ul>';
 
 <?php print $stationsHtml; ?>
 
-<p><a href="seismograms/latest">View seismograms for all stations</a> &raquo;</p>
+<p class="allstations"><a href="seismograms/latest">View seismograms for all
+  stations</a> &raquo;</p>

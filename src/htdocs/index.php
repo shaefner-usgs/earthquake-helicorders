@@ -34,7 +34,7 @@ foreach ($stations['features'] as $feature) {
     ' ' . $props['code'];
 
   $stationsHtml .= sprintf('<li>
-      <a href="seismograms/%s/latest" title="View station">%s</a>
+      <a href="seismograms/%s" title="View station">%s</a>
     </li>',
     $feature['id'],
     $name

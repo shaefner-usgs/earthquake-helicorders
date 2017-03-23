@@ -46,6 +46,66 @@ function getHeaderComponents ($date) {
 }
 
 /**
+ * Get filename for plot
+ *
+ * @param $date {Integer} 8 digits
+ * @param $instrument {String}
+ * @param $set {String}
+ *
+ * @return $img {String}
+ */
+function getPlotFile ($date, $instrument, $set) {
+  if ($date === 'latest') {
+    $date = '22221212'; // 'latest' plots use this date string
+  }
+  $img = sprintf('tn-nc.%s_00.%s00.gif',
+    str_replace(' ', '_', $instrument),
+    $date
+  );
+  $imgFullPath = sprintf('%s/%s/%s',
+    $GLOBALS['CONFIG']['DATA_DIR'],
+    $set,
+    $img
+  );
+
+  if (file_exists($imgFullPath)) {
+    return $img;
+  }
+}
+
+/**
+ * Get html for thumbnail img/link (return "no data" message if img not found)
+ *
+ * @param $date {Integer} 8 digits
+ * @param $id {Integer}
+ * @param $instrument {String}
+ *
+ * @return $thumb {Html}
+ */
+function getThumb ($date, $id, $instrument) {
+  $set = 'nca'; // hard-wired for now
+
+  $plotFile = getPlotFile($date, $instrument, $set);
+
+  if ($plotFile) {
+    $thumb = sprintf('<a href="%s/%d/%s">
+        <img src="%s/data/%s/%s" alt="seismogram thumbnail" />
+      </a>',
+      $GLOBALS['CONFIG']['MOUNT_PATH'],
+      $id,
+      $date,
+      $GLOBALS['CONFIG']['MOUNT_PATH'],
+      $set,
+      $plotFile
+    );
+  } else { // if image not found, display 'no data' msg
+    $thumb = '<p class="nodata">No data available</p>';
+  }
+
+  return $thumb;
+}
+
+/**
  * Import dynamically generated json file and store it in an array
  *
  * @param $file {String}

@@ -18,33 +18,6 @@ if (!isset($TEMPLATE)) {
   $HEAD = '<link rel="stylesheet" href="css/seismograms.css" />';
   $FOOT = '';
 
-  function getImg ($date, $id, $instrument) {
-    $imgDateStr = $date;
-    if ($date === 'latest') {
-      $imgDateStr = '22221212'; // 'latest' plots use this date string
-    }
-    $file = sprintf('tn-nc.%s_00.%s00.gif',
-      str_replace(' ', '_', $instrument),
-      $imgDateStr
-    );
-
-    // If no image exists, display 'no data' msg
-    if (file_exists($GLOBALS['CONFIG']['DATA_DIR'] . '/' . $GLOBALS['set'] . '/' . $file)) {
-      $img = sprintf('<a href="%d/%s">
-          <img src="data/%s/%s" alt="seismogram thumbnail" />
-        </a>',
-        $id,
-        $date,
-        $GLOBALS['set'],
-        $file
-      );
-    } else {
-      $img = '<p class="nodata">No data available</p>';
-    }
-
-    return $img;
-  }
-
   $listHtml = '<ul class="stations no-style">';
 
   if ($id) { // show plots for a given station
@@ -66,14 +39,13 @@ if (!isset($TEMPLATE)) {
     for ($i = -1; $i < 15; $i ++) {
       if ($i === -1) { // latest
         $date = 'latest';
-        $imgTitle = 'Past 24 hours';
+        $thumbTitle = 'Past 24 hours';
       } else {
         $date = date('Ymd', strtotime('-' . $i . ' day'));
-        $imgTitle = date('M j, Y', strtotime($date));
+        $thumbTitle = date('M j, Y', strtotime($date));
       }
-      $img = getImg($date, $id, $instrument);
-
-      $listHtml .= "<li><h3>$imgTitle</h3>$img</li>";
+      $thumb = getThumb($date, $id, $instrument);
+      $listHtml .= "<li><h3>$thumbTitle</h3>$thumb</li>";
     }
   } else { // show plots for all stations on a given date
     $subtitle = 'All Stations';
@@ -85,9 +57,8 @@ if (!isset($TEMPLATE)) {
     while ($row = $rsStations->fetch(PDO::FETCH_ASSOC)) {
       $instrument = $row['site'] . ' ' . $row['type'] . ' ' . $row['network'] .
         ' ' . $row['code'];
-      $img = getImg($date, $row['id'], $instrument);
-
-      $listHtml .= "<li><h3>$instrument</h3>$img</li>";
+      $thumb = getThumb($date, $row['id'], $instrument);
+      $listHtml .= "<li><h3>$instrument</h3>$thumb</li>";
     }
   }
 

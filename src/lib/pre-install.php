@@ -88,6 +88,6 @@ file_put_contents($HTTPD_CONF, '
     </LimitExcept>
 
     ExpiresActive on
-    ExpiresDefault "access plus 1 days"
+    ExpiresDefault "access plus 10 minutes"
   </Location>
 ');

@@ -9,9 +9,6 @@ $db = new Db;
 $date = safeParam('date');
 $id = safeParam('id');
 
-// 'hardwire' for now
-$set = 'nca';
-
 if (!isset($TEMPLATE)) {
   $TITLE = 'Real-time Seismogram Displays';
   $NAVIGATION = true;
@@ -32,7 +29,7 @@ if (!isset($TEMPLATE)) {
     return;
   }
 
-  $header = getHeaderComponents($date);
+  $set = 'nca'; // 'hardwire' for now
 
   // Seismogram plot
   $imgDateStr = $date;
@@ -43,9 +40,15 @@ if (!isset($TEMPLATE)) {
     str_replace(' ', '_', $instrument),
     $imgDateStr
   );
+  // Plot w/ full path
+  $filename = sprintf('%s/%s/%s',
+    $CONFIG['DATA_DIR'],
+    $set,
+    $file
+  );
 
   // if no image, display 'no data' msg
-  if (file_exists($CONFIG['DATA_DIR'] . '/' . $set . '/' . $file)) {
+  if (file_exists($filename)) {
     $img = '<img src="../data/' . "$set/$file" . '" alt="seismogram plot"
       class="seismogram" />';
   } else {
@@ -54,6 +57,7 @@ if (!isset($TEMPLATE)) {
 
   $backLink = '<a href="../' . $id . '">Back to station ' . $instrument . '</a>';
 
+  $header = getHeaderComponents($date);
   $TITLETAG .= "Seismograms | $subtitle - " . $header['title'];
 
   include 'template.inc.php';

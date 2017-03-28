@@ -9,9 +9,6 @@ $db = new Db;
 $date = safeParam('date');
 $id = safeParam('id');
 
-// 'hardwire' for now
-$set = 'nca';
-
 if (!isset($TEMPLATE)) {
   $TITLE = 'Real-time Seismogram Displays';
   $NAVIGATION = true;

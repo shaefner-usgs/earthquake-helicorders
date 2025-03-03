@@ -2,4 +2,4 @@
 
 Earthquake Science Center Helicorders web site
 
-https://earthquake.usgs.gov/monitoring/helicorders
+https://earthquake.usgs.gov/monitoring/seismograms
